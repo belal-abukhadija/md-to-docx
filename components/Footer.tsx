@@ -3,58 +3,30 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer
-      className="border-t py-10 mt-auto"
+      className="border-t py-12 mt-auto text-center"
       style={{ borderColor: "var(--border)", background: "var(--bg-secondary)" }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white font-bold text-xs" style={{ background: "var(--gradient-1)" }}>M</div>
-              <span className="font-semibold" style={{ color: "var(--text-primary)" }}>Mark<span className="gradient-text">Flow</span></span>
-            </div>
-            <p className="text-sm leading-relaxed max-w-xs" style={{ color: "var(--text-secondary)" }}>
-              A privacy-first Markdown to Word converter. All processing happens locally in your browser — no uploads, no servers, no data collection.
-            </p>
-            <div className="flex items-center gap-2 mt-4">
-              <span className="badge">100% Client-Side</span>
-              <span className="badge">Offline Ready</span>
-              <span className="badge">Open Source</span>
-            </div>
-          </div>
-
-          {/* Links */}
-          <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-muted)" }}>Product</h3>
-            <ul className="space-y-2">
-              {[["Converter", "/converter"], ["Documentation", "/docs"], ["About", "/about"]].map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href} className="text-sm transition-colors hover:text-white" style={{ color: "var(--text-secondary)" }}>{label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-muted)" }}>Technology</h3>
-            <ul className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-              <li>Next.js 14</li>
-              <li>Monaco Editor</li>
-              <li>docx.js</li>
-              <li>remark / rehype</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderColor: "var(--border)" }}>
-          <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-            © 2026 MarkFlow. Built with ❤️ for the developer community.
-          </p>
-          <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-            Your files never leave your browser.
-          </p>
-        </div>
+      <div className="max-w-4xl mx-auto px-4 flex flex-col items-center gap-4">
+        <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+          © 2026 MarkFlow. All rights reserved.
+        </p>
+        <p className="text-[15px]" style={{ color: "var(--text-secondary)" }}>
+          Programmer: Belal Abukhadija (
+          <a href="mailto:belalabukhadija97@gmail.com" className="hover:underline" style={{ color: "var(--accent)" }}>
+            belalabukhadija97@gmail.com
+          </a>
+          )
+        </p>
+        <p className="text-[15px]" style={{ color: "var(--text-secondary)" }}>
+          For more free tools, visit my website{" "}
+          <a href="https://belal.work" target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: "var(--accent)" }}>
+            belal.work
+          </a>
+          .
+        </p>
+        <p className="text-xs mt-2" style={{ color: "var(--text-muted)" }}>
+          This tool is for personal use only. Please respect copyright laws and terms of service of the platforms.
+        </p>
       </div>
     </footer>
   );

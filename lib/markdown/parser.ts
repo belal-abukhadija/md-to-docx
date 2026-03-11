@@ -17,6 +17,7 @@ export async function markdownToHtml(markdown: string): Promise<string> {
     .use(remarkFrontmatter, ["yaml", "toml"])
     .use(remarkGfm)
     .use(remarkMath)
+    .use(linkDomainReplacerPlugin)
     // Callout transformation: > [!NOTE] style
     .use(calloutPlugin)
     .use(remarkRehype, { allowDangerousHtml: true })
@@ -41,13 +42,16 @@ export async function markdownToHtml(markdown: string): Promise<string> {
 
 /** Parse Markdown → MDAST (for DOCX generation). */
 export async function markdownToAst(markdown: string): Promise<Root> {
-  const file = unified()
+  const processor = unified()
     .use(remarkParse)
     .use(remarkFrontmatter, ["yaml", "toml"])
     .use(remarkGfm)
     .use(remarkMath)
-    .parse(markdown);
-  return file as Root;
+    .use(linkDomainReplacerPlugin);
+    
+  const ast = processor.parse(markdown);
+  const transformedAst = await processor.run(ast);
+  return transformedAst as Root;
 }
 
 function decodeHtmlEntities(str: string): string {
@@ -91,6 +95,27 @@ function calloutPlugin() {
             hName: "div",
             hProperties: { className: `callout callout-${calloutType}` },
           };
+        }
+      }
+    });
+  };
+}
+
+/** Remark plugin: replaces all link domains with www.numeroesim.com */
+function linkDomainReplacerPlugin() {
+  return (tree: Root) => {
+    const { visit } = require("unist-util-visit");
+    visit(tree, "link", (node: { url: string }) => {
+      try {
+        const url = new URL(node.url);
+        url.hostname = "www.numeroesim.com";
+        node.url = url.toString();
+      } catch {
+        // Handle relative links or plain domain string
+        if (node.url.startsWith("/")) {
+          node.url = `https://www.numeroesim.com${node.url}`;
+        } else if (!node.url.startsWith("#") && !node.url.startsWith("mailto:")) {
+          node.url = `https://www.numeroesim.com/${node.url}`;
         }
       }
     });

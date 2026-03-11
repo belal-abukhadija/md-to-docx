@@ -4,7 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "MarkFlow — Markdown to DOCX Converter",
+  title: "MarkFlow - Markdown to DOCX Converter",
   description:
     "Convert Markdown (.md, .mdx) files to professional Word documents entirely in your browser. 100% private, offline-capable, zero uploads.",
   keywords: [
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   ],
   manifest: "/manifest.json",
   openGraph: {
-    title: "MarkFlow — Markdown to DOCX Converter",
+    title: "MarkFlow - Markdown to DOCX Converter",
     description:
       "Convert Markdown files to Word documents in your browser. No uploads, no servers, 100% private.",
     type: "website",

@@ -1,19 +1,6 @@
 import Link from "next/link";
 
-const stack = [
-  { name: "Next.js 14", role: "App framework", color: "ffffff" },
-  { name: "React 18", role: "UI library", color: "61dafb" },
-  { name: "TailwindCSS", role: "Utility styling", color: "38bdf8" },
-  { name: "Monaco Editor", role: "In-browser code editor", color: "0098ff" },
-  { name: "unified / remark", role: "Markdown parse pipeline", color: "6366f1" },
-  { name: "rehype", role: "HTML transform pipeline", color: "a855f7" },
-  { name: "KaTeX", role: "Math equation rendering", color: "f59e0b" },
-  { name: "Mermaid.js", role: "Diagram rendering", color: "ff3670" },
-  { name: "docx.js", role: "DOCX generation", color: "10b981" },
-  { name: "JSZip", role: "ZIP archive creation", color: "f97316" },
-  { name: "FileSaver.js", role: "File download trigger", color: "ec4899" },
-  { name: "React Dropzone", role: "Drag-and-drop input", color: "0ea5e9" },
-];
+
 
 export default function AboutPage() {
   return (
@@ -58,27 +45,7 @@ export default function AboutPage() {
         ))}
       </div>
 
-      {/* Tech stack */}
-      <div className="mb-14">
-        <h2 className="text-2xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>
-          Technology Stack
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {stack.map((tech) => (
-            <div
-              key={tech.name}
-              className="flex items-center gap-3 p-4 rounded-xl"
-              style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}
-            >
-              <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: `#${tech.color}` }} />
-              <div className="min-w-0">
-                <p className="text-sm font-medium truncate" style={{ color: "var(--text-primary)" }}>{tech.name}</p>
-                <p className="text-xs truncate" style={{ color: "var(--text-muted)" }}>{tech.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+
 
       {/* Privacy commitment */}
       <div
