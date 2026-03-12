@@ -144,15 +144,19 @@ export default function ConverterPage() {
   const lines = currentContent.split("\n").length;
 
   return (
-    <div style={{ height: "calc(100vh - 64px)", display: "flex", flexDirection: "column", background: "var(--bg-primary)" }}>
+    <div className="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto" style={{ height: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
+      {/* Hand-Drawn Main Container Background */}
+      <div className="flex-1 wobbly-border-subtle hard-shadow-lg bg-white flex flex-col min-h-0 overflow-hidden relative">
+      <div className="absolute top-[-10px] left-1/2 transform -translate-x-1/2 w-16 h-8 bg-[rgba(255,255,255,0.7)] border-2 border-[var(--border)] border-dashed z-20" style={{ transform: "translate(-50%, 0) rotate(2deg)" }} />
+        
       {/* Toolbar */}
       <div
-        className="flex items-center gap-3 px-4 py-2 flex-shrink-0"
-        style={{ background: "var(--bg-secondary)", borderBottom: "1px solid var(--border)" }}
+        className="flex items-center gap-4 px-6 py-3 flex-shrink-0 relative z-10"
+        style={{ borderBottom: "3px dashed var(--border)" }}
       >
         {/* File operations */}
-        <div className="flex items-center gap-2 flex-1 min-w-0">
-          <span className="text-xs font-medium flex-shrink-0" style={{ color: "var(--text-muted)" }}>Files:</span>
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <span className="text-lg font-kalam font-bold flex-shrink-0" style={{ color: "var(--text-primary)" }}>Files:</span>
           <div className="flex-1 min-w-0 overflow-x-auto">
             <FileList
               files={files}
@@ -166,17 +170,20 @@ export default function ConverterPage() {
 
         {/* View mode toggles */}
         <div
-          className="flex items-center gap-0.5 rounded-lg p-1 flex-shrink-0"
-          style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)" }}
+          className="flex items-center gap-1 p-1 flex-shrink-0 wobbly-border-subtle bg-[#fff9c4] hard-shadow"
+          style={{ transform: "rotate(-1deg)" }}
         >
           {(["editor", "split", "preview"] as ViewMode[]).map((mode) => (
             <button
               key={mode}
               onClick={() => setViewMode(mode)}
-              className="px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 capitalize"
+              className="px-4 py-1.5 text-sm font-patrick font-bold transition-all duration-150 capitalize wobbly-border flex items-center justify-center"
               style={{
-                background: viewMode === mode ? "var(--accent-subtle)" : "transparent",
-                color: viewMode === mode ? "var(--accent-hover)" : "var(--text-muted)",
+                background: viewMode === mode ? "var(--accent)" : "transparent",
+                color: viewMode === mode ? "white" : "var(--text-primary)",
+                borderWidth: viewMode === mode ? "2px" : "0px",
+                boxShadow: viewMode === mode ? "2px 2px 0px 0px var(--border)" : "none",
+                transform: viewMode === mode ? "scale(1.05) rotate(1deg)" : "none"
               }}
             >
               {mode}
@@ -185,39 +192,41 @@ export default function ConverterPage() {
         </div>
 
         {/* Stats */}
-        <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
+        <div className="hidden sm:flex items-center gap-4 flex-shrink-0 px-4 py-1 wobbly-border bg-white hard-shadow" style={{ transform: "rotate(1deg)" }}>
           {[
             { label: "words", value: wordCount.toLocaleString() },
             { label: "chars", value: charCount.toLocaleString() },
             { label: "lines", value: lines.toLocaleString() },
           ].map(({ label, value }) => (
-            <div key={label} className="text-xs" style={{ color: "var(--text-muted)" }}>
-              <span style={{ color: "var(--text-secondary)", fontWeight: 600 }}>{value}</span> {label}
+            <div key={label} className="text-sm font-patrick font-bold" style={{ color: "var(--text-secondary)" }}>
+              <span className="text-[var(--accent)] text-lg mr-1">{value}</span>{label}
             </div>
           ))}
         </div>
       </div>
 
       {/* Main workspace */}
-      <div className="flex flex-1 min-h-0">
+      <div className="flex flex-1 min-h-0 bg-[#e5e0d8] relative z-0">
+        <div className="absolute inset-0 z-[-1]" style={{ backgroundImage: "radial-gradient(#2d2d2d 1px, transparent 1px)", backgroundSize: "24px 24px", opacity: 0.1 }}></div>
+
         {/* Editor panel */}
         {(viewMode === "editor" || viewMode === "split") && (
           <div
             className="flex flex-col min-w-0"
             style={{
               flex: viewMode === "editor" ? "1 1 100%" : "1 1 50%",
-              borderRight: viewMode === "split" ? "1px solid var(--border)" : "none",
+              borderRight: viewMode === "split" ? "3px solid var(--border)" : "none",
             }}
           >
             <div
-              className="px-4 py-2 text-xs font-medium flex items-center gap-2"
-              style={{ background: "var(--bg-surface)", borderBottom: "1px solid var(--border)", color: "var(--text-muted)" }}
+              className="px-4 py-2 text-sm font-kalam font-bold flex items-center gap-2 border-b-3"
+              style={{ background: "#fdfbf7", borderBottom: "3px solid var(--border)", color: "var(--text-primary)" }}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
-              <span style={{ color: "var(--text-secondary)" }}>{currentFile?.name ?? "editor"}</span>
-              <span className="font-mono text-xs opacity-50">.md</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
+              <span>{currentFile?.name ?? "editor"}</span>
+              <span className="font-patrick text-sm opacity-60">.md</span>
             </div>
-            <div className="flex-1 min-h-0">
+            <div className="flex-1 min-h-0 bg-[#fdfbf7]">
               <MarkdownEditor value={currentContent} onChange={updateContent} />
             </div>
           </div>
@@ -230,28 +239,29 @@ export default function ConverterPage() {
             style={{ flex: viewMode === "preview" ? "1 1 100%" : "1 1 50%" }}
           >
             <div
-              className="px-4 py-2 text-xs font-medium flex items-center gap-2"
-              style={{ background: "var(--bg-surface)", borderBottom: "1px solid var(--border)", color: "var(--text-muted)" }}
+              className="px-4 py-2 text-sm font-kalam font-bold flex items-center gap-2"
+              style={{ background: "#fdfbf7", borderBottom: "3px solid var(--border)", color: "var(--text-primary)" }}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
               Preview
               {isRendering && (
-                <div className="w-3 h-3 border border-t-transparent rounded-full animate-spin ml-1" style={{ borderColor: "var(--accent)", borderTopColor: "transparent" }} />
+                <div className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin ml-2" style={{ borderColor: "var(--accent)", borderTopColor: "transparent" }} />
               )}
             </div>
-            <div className="flex-1 min-h-0 overflow-auto">
-              <PreviewPanel html={previewHtml} isLoading={isRendering} />
+            <div className="flex-1 min-h-0 overflow-auto bg-[#fdfbf7] p-2">
+              <div className="bg-white min-h-full wobbly-border-subtle p-6 max-w-4xl mx-auto" style={{ boxShadow: "4px 4px 0px 0px var(--border)", transform: "rotate(0deg)" }}>
+                <PreviewPanel html={previewHtml} isLoading={isRendering} />
+              </div>
             </div>
           </div>
         )}
 
         {/* Export sidebar */}
         <div
-          className="flex-shrink-0 overflow-auto"
+          className="flex-shrink-0 overflow-auto bg-[#fdfbf7]"
           style={{
-            width: "260px",
-            borderLeft: "1px solid var(--border)",
-            background: "var(--bg-secondary)",
+            width: "320px",
+            borderLeft: "3px solid var(--border)",
           }}
         >
           <ExportPanel
@@ -261,6 +271,7 @@ export default function ConverterPage() {
             onOptionsChange={setOptions}
           />
         </div>
+      </div>
       </div>
     </div>
   );
