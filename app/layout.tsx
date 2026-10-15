@@ -1,12 +1,15 @@
 import type { Metadata, Viewport } from "next";
+import { Readex_Pro } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
+const readex = Readex_Pro({ subsets: ["latin", "arabic"], variable: "--font-readex" });
+
 export const metadata: Metadata = {
-  title: "MarkFlow - Markdown to DOCX Converter",
+  title: "MarkFlow: Markdown to Word",
   description:
-    "Convert Markdown (.md, .mdx) files to professional Word documents entirely in your browser. 100% private, offline-capable, zero uploads.",
+    "Convert Markdown (.md, .mdx) files to Word documents entirely in your browser. Nothing is uploaded.",
   keywords: [
     "markdown to word",
     "md to docx",
@@ -18,15 +21,15 @@ export const metadata: Metadata = {
   ],
   manifest: "/manifest.json",
   openGraph: {
-    title: "MarkFlow - Markdown to DOCX Converter",
+    title: "MarkFlow: Markdown to Word",
     description:
-      "Convert Markdown files to Word documents in your browser. No uploads, no servers, 100% private.",
+      "Convert Markdown files to Word documents in your browser. Nothing is uploaded.",
     type: "website",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#6366f1",
+  themeColor: "#eceef0",
 };
 
 export default function RootLayout({
@@ -35,12 +38,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className="min-h-screen flex flex-col">
+    <html lang="en" className={readex.variable} suppressHydrationWarning>
+      <body className="wb min-h-screen flex flex-col">
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />

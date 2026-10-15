@@ -1,86 +1,68 @@
 import Link from "next/link";
 
+const principles = [
+  { title: "Private by construction", body: "No uploads, no accounts, no data collection. There is no server that could receive your documents." },
+  { title: "Quick", body: "Browser APIs and well-tuned libraries turn even long documents around in a moment." },
+  { title: "Open to everyone", body: "Free, nothing to install, no sign-up, and it runs in any modern browser." },
+];
 
+const promises = [
+  "All file processing happens in your browser",
+  "No analytics, tracking scripts or cookies",
+  "No accounts or sign-in",
+  "Works offline after the first visit",
+  "Files are never sent to a server",
+];
 
 export default function AboutPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      {/* Header */}
-      <div className="text-center mb-16">
-        <span className="badge mb-4 inline-block">About</span>
-        <h1 className="text-4xl font-bold mb-5" style={{ color: "var(--text-primary)" }}>
-          About <span className="gradient-text">MarkFlow</span>
-        </h1>
-        <p className="text-lg max-w-2xl mx-auto" style={{ color: "var(--text-secondary)" }}>
-          A privacy-first, zero-server Markdown to Word converter built for developers, writers, and documentation teams.
+    <div className="wb-page wb-page--narrow">
+      <div className="wb-head">
+        <h1 className="wb-title">About MarkFlow</h1>
+        <p className="wb-lede">
+          A Markdown to Word converter that never uploads anything, made for developers, writers and anyone who keeps notes in Markdown.
         </p>
       </div>
 
-      {/* Mission */}
-      <div
-        className="p-8 rounded-2xl mb-12"
-        style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}
-      >
-        <h2 className="text-xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>Our Mission</h2>
-        <p className="text-base leading-relaxed mb-4" style={{ color: "var(--text-secondary)" }}>
-          Document conversion tools typically require uploading your files to a third-party server. This creates privacy risks, requires an internet connection, and introduces unnecessary latency.
-        </p>
-        <p className="text-base leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-          MarkFlow proves that sophisticated document processing can happen entirely in the browser. By leveraging modern JavaScript libraries, WebAssembly, and the File APIs — your documents stay on your device, conversion is instant, and the tool works even offline.
-        </p>
-      </div>
+      <div className="wb-stack" style={{ gap: "var(--wb-s7)" }}>
+        <section>
+          <h2 className="wb-h2">Why it exists</h2>
+          <p style={{ maxWidth: "62ch" }}>
+            Most converters ask you to upload your file to someone else&apos;s server. That is a privacy risk, it needs a connection, and it is slower than it has to be.
+          </p>
+          <p style={{ maxWidth: "62ch", marginBottom: 0 }}>
+            MarkFlow does the whole job in the browser with JavaScript and the File APIs. Your documents stay on your device, conversion is instant, and it keeps working offline.
+          </p>
+        </section>
 
-      {/* Principles */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-14">
-        {[
-          { icon: "🔒", title: "Privacy First", body: "No file uploads. No data collection. No accounts. Your documents never leave your device." },
-          { icon: "⚡", title: "Performance", body: "Browser-native APIs and optimized libraries deliver near-instant conversion of even large documents." },
-          { icon: "🌍", title: "Accessibility", body: "Free forever. Works on any modern browser. No installation. No sign-up. No vendor lock-in." },
-        ].map((p) => (
-          <div key={p.title} className="p-6 rounded-2xl text-center" style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}>
-            <div className="text-3xl mb-3">{p.icon}</div>
-            <h3 className="font-semibold mb-2" style={{ color: "var(--text-primary)" }}>{p.title}</h3>
-            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>{p.body}</p>
-          </div>
-        ))}
-      </div>
-
-
-
-      {/* Privacy commitment */}
-      <div
-        className="p-8 rounded-2xl mb-12"
-        style={{ background: "rgba(16,185,129,0.06)", border: "1px solid rgba(16,185,129,0.2)" }}
-      >
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(16,185,129,0.15)" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-          </div>
-          <h2 className="text-xl font-bold" style={{ color: "#10b981" }}>Privacy Commitment</h2>
-        </div>
-        <ul className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-          {[
-            "All file processing happens locally in your browser",
-            "No analytics, tracking scripts, or cookies",
-            "No user accounts or authentication required",
-            "Works offline after the first load (PWA)",
-            "Files are never sent to any server",
-          ].map((item) => (
-            <li key={item} className="flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-              {item}
-            </li>
+        <section className="grid gap-6 sm:grid-cols-3">
+          {principles.map((p) => (
+            <div key={p.title}>
+              <h3 className="wb-h3" style={{ fontSize: "var(--wb-t-lg)" }}>{p.title}</h3>
+              <p className="m-0 mt-2" style={{ color: "var(--wb-muted)" }}>{p.body}</p>
+            </div>
           ))}
-        </ul>
-      </div>
+        </section>
 
-      {/* CTA */}
-      <div className="text-center">
-        <Link href="/converter" className="btn-primary text-base px-8 py-3">
-          Start Converting →
-        </Link>
+        <section className="wb-panel">
+          <h2 className="wb-h2">The privacy promise</h2>
+          <ul className="m-0 mt-4 grid list-none gap-3 p-0">
+            {promises.map((item) => (
+              <li key={item} className="flex items-center gap-3">
+                <span className="grid size-6 shrink-0 place-items-center rounded-full" style={{ background: "var(--wb-ok-wash)", color: "var(--wb-ok)" }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <div>
+          <Link href="/converter" className="wb-btn wb-btn--primary wb-btn--lg">
+            Open the converter
+          </Link>
+        </div>
       </div>
     </div>
   );

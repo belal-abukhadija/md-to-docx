@@ -5,14 +5,14 @@ const sections = [
     content: [
       {
         heading: "Opening the Converter",
-        body: `Navigate to the [Converter](/converter) page. You'll see a three-panel layout:
-- **Left**: Monaco editor for Markdown input
-- **Center**: Live HTML preview
-- **Right**: Export controls and style customization`,
+        body: `Navigate to the [Converter](/converter) page. You will see three panels:
+- **Editor**: Monaco, for writing Markdown
+- **Preview**: the page as it will look
+- **Export**: document style and the download buttons`,
       },
       {
         heading: "Uploading Files",
-        body: `Drag and drop one or more **.md** or **.mdx** files onto the drop zone in the toolbar, or click "Upload .md / .mdx".
+        body: `Drag and drop one or more **.md** or **.mdx** files onto the converter, or press **Add .md files** in the toolbar.
 Multiple files will appear as tabs in the toolbar — click any filename to switch to it.`,
       },
       {
@@ -83,11 +83,11 @@ Types: NOTE, TIP, WARNING, DANGER, CAUTION, IMPORTANT.`,
     content: [
       {
         heading: "Single File Export",
-        body: `Click **Export to DOCX** in the right panel. The file downloads immediately — no server involved.`,
+        body: `Press **Export to DOCX** in the Export panel. The file downloads immediately — no server involved.`,
       },
       {
         heading: "Batch Export (ZIP)",
-        body: `Upload multiple .md files. When 2+ files are loaded, a **Download All as ZIP** button appears. All files are converted simultaneously and bundled into a single ZIP archive.`,
+        body: `Upload multiple .md files. When 2+ files are loaded, an **Export all as ZIP** button appears. All files are converted simultaneously and bundled into a single ZIP archive.`,
       },
       {
         heading: "What is preserved in DOCX",
@@ -109,7 +109,7 @@ Types: NOTE, TIP, WARNING, DANGER, CAUTION, IMPORTANT.`,
     content: [
       {
         heading: "Presets",
-        body: `Choose from four presets in the **Customize Style** panel:
+        body: `Choose from four presets under **Document style** in the Export panel:
 - **Default** — Calibri, standard margins
 - **Academic** — Times New Roman, wide margins, double spacing
 - **Modern** — Arial, compact, colored headings
@@ -125,7 +125,7 @@ Types: NOTE, TIP, WARNING, DANGER, CAUTION, IMPORTANT.`,
       },
       {
         heading: "Table of Contents",
-        body: `Toggle **Include Table of Contents** to prepend a ToC page with all headings linked.`,
+        body: `Turn on **Start with a table of contents** to prepend a ToC page with all headings linked.`,
       },
     ],
   },
@@ -149,73 +149,58 @@ Types: NOTE, TIP, WARNING, DANGER, CAUTION, IMPORTANT.`,
   },
 ];
 
+function renderInline(body: string) {
+  return body
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+    .replace(/`([^`]+)`/g, '<code class="wb-code mf-inline-code">$1</code>');
+}
+
 export default function DocsPage() {
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      {/* Header */}
-      <div className="mb-12">
-        <span className="badge mb-4 inline-block">Documentation</span>
-        <h1 className="text-4xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>
-          MarkFlow <span className="gradient-text">Guide</span>
-        </h1>
-        <p className="text-lg" style={{ color: "var(--text-secondary)" }}>
-          Everything you need to know about converting Markdown to Word documents.
-        </p>
+    <div className="wb-page">
+      <div className="wb-head">
+        <h1 className="wb-title">The MarkFlow guide</h1>
+        <p className="wb-lede">How to get Markdown in, what it supports, and what comes out in Word.</p>
       </div>
 
-      <div className="flex gap-8">
-        {/* Sidebar ToC */}
-        <aside className="hidden lg:block w-56 flex-shrink-0">
-          <div className="sticky top-24">
-            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: "var(--text-muted)" }}>On this page</p>
-            <nav className="space-y-1">
-              {sections.map((s) => (
-                <a
-                  key={s.id}
-                  href={`#${s.id}`}
-                  className="block text-sm py-1.5 px-2 rounded-lg transition-colors hover:text-indigo-400"
-                  style={{ color: "var(--text-secondary)" }}
-                >
-                  {s.title}
-                </a>
-              ))}
-            </nav>
-          </div>
+      <div className="grid gap-10 lg:grid-cols-[13rem_minmax(0,1fr)]">
+        <aside className="hidden lg:block">
+          <nav className="sticky top-6 flex flex-col gap-1" aria-label="On this page">
+            {sections.map((s) => (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                className="rounded-full px-4 py-2 text-sm no-underline transition-colors hover:bg-[var(--wb-sunk)]"
+                style={{ color: "var(--wb-muted)" }}
+              >
+                {s.title}
+              </a>
+            ))}
+          </nav>
         </aside>
 
-        {/* Content */}
-        <main className="flex-1 min-w-0 space-y-12">
+        <div className="flex min-w-0 flex-col gap-16">
           {sections.map((section) => (
-            <section key={section.id} id={section.id}>
-              <h2
-                className="text-2xl font-bold mb-6 pb-3"
-                style={{ color: "var(--text-primary)", borderBottom: "1px solid var(--border)" }}
-              >
+            <section key={section.id} id={section.id} className="scroll-mt-6">
+              <h2 className="wb-title" style={{ fontSize: "clamp(1.6rem, 1.2rem + 1.5vw, 2.25rem)" }}>
                 {section.title}
               </h2>
-              <div className="space-y-6">
+              <div className="mt-6 flex flex-col gap-3">
                 {section.content.map((item) => (
-                  <div key={item.heading} className="panel p-5">
-                    <h3 className="text-base font-semibold mb-3" style={{ color: "var(--accent-hover)" }}>
-                      {item.heading}
-                    </h3>
+                  <div key={item.heading} className="wb-panel">
+                    <h3 className="wb-h3" style={{ fontSize: "var(--wb-t-lg)" }}>{item.heading}</h3>
                     <div
-                      className="text-sm leading-relaxed whitespace-pre-line"
-                      style={{ color: "var(--text-secondary)" }}
-                      dangerouslySetInnerHTML={{
-                        __html: item.body
-                          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color:var(--accent-hover);text-decoration:underline;">$1</a>')
-                          .replace(/\*\*([^*]+)\*\*/g, "<strong style=\"color:var(--text-primary)\">$1</strong>")
-                          .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-                          .replace(/`([^`]+)`/g, "<code style=\"font-family:JetBrains Mono,monospace;font-size:0.85em;background:var(--bg-elevated);border:1px solid var(--border);padding:2px 5px;border-radius:4px;color:#e879f9\">$1</code>"),
-                      }}
+                      className="mf-doc-body mt-2 whitespace-pre-line"
+                      dangerouslySetInnerHTML={{ __html: renderInline(item.body) }}
                     />
                   </div>
                 ))}
               </div>
             </section>
           ))}
-        </main>
+        </div>
       </div>
     </div>
   );

@@ -1,22 +1,13 @@
 "use client";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
   loading: () => (
-    <div
-      className="w-full h-full flex items-center justify-center"
-      style={{ background: "var(--bg-surface)" }}
-    >
-      <div className="flex flex-col items-center gap-3">
-        <div
-          className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin"
-          style={{ borderColor: "var(--accent)", borderTopColor: "transparent" }}
-        />
-        <span className="text-sm" style={{ color: "var(--text-muted)" }}>
-          Loading editor…
-        </span>
-      </div>
+    <div className="flex h-full w-full items-center justify-center gap-3 wb-note">
+      <span className="wb-spin" aria-hidden="true" />
+      Loading the editor
     </div>
   ),
 });
@@ -26,18 +17,32 @@ interface MarkdownEditorProps {
   onChange: (value: string) => void;
 }
 
+// Follow the system colour scheme, like the rest of the page.
+function usePrefersDark() {
+  const [dark, setDark] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    setDark(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setDark(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return dark;
+}
+
 export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
+  const dark = usePrefersDark();
+
   return (
     <MonacoEditor
       height="100%"
       language="markdown"
       value={value}
-      theme="vs-dark"
+      theme={dark ? "vs-dark" : "light"}
       onChange={(v) => onChange(v ?? "")}
       options={{
         fontSize: 14,
-        fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace",
-        fontLigatures: true,
+        fontFamily: "'Cascadia Code', 'SF Mono', Consolas, monospace",
         wordWrap: "on",
         lineNumbers: "on",
         minimap: { enabled: false },
